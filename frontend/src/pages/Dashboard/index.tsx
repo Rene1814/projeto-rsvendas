@@ -17,7 +17,7 @@ const Dashboard = () => {
                         <BarChart />
                     </div>
                     <div className="col-sm-6">
-                        <h5 className="text-center">Todas as Vendas</h5>
+                        <h5 className="text-center">Totais de vendas(%)</h5>
                         <DonutChart />
                     </div>
                 </div>
