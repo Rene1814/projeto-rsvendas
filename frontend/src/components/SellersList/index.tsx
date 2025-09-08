@@ -1,25 +1,18 @@
+import { useEffect, useState } from "react";
+import { Sellers } from "types/seller";
+import { sellersList } from "utils/requests";
+
 const SellersList = () => {
 
-    const dummySellers = [
-        {
-            "id": 1,
-            "name": "Seller One",
-            "email": "sellerone@gmail.com",
-            "level": "JUNIOR"
-        },
-        {
-            "id": 2,
-            "name": "Seller Two",
-            "email": "sellertwo@yahoo.com.br",
-            "level": "MID"
-        },
-        {
-            "id": 3,
-            "name": "Seller Three",
-            "email": "sellertree@outlook.com",
-            "level": "SENIOR"
-        }
-    ];
+    const [sellers, setSellers] = useState<Sellers>([]);
+
+    useEffect(() => {
+        sellersList().then(response => {
+            setSellers(response.data);
+        }).catch(error => {
+            console.error("Ocorreu um erro ao listar os vendedores!", error);
+        });
+    }, []);
 
     return (
         <div className="container">
@@ -35,7 +28,7 @@ const SellersList = () => {
                 </thead>
                 <tbody>
                     {
-                        dummySellers.map(seller => (
+                        sellers.map(seller => (
                             <tr key={seller.id}>
                                 <td>{seller.id}</td>
                                 <td>{seller.name}</td>
