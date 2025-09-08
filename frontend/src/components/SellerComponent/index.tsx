@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Seller } from "types/seller";
+import { createSeller } from "utils/requests";
 
 const SellerComponent = () => {
 
@@ -9,9 +11,17 @@ const SellerComponent = () => {
         level: ""
     });
 
-    function saveSeller(event: React.MouseEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        console.log(seller);
+    const navigator = useNavigate();
+
+    function saveSeller(e: { preventDefault: () => void; }) {
+        e.preventDefault();
+        createSeller(seller).then(response => {
+            console.log("Vendedor cadastrado com sucesso!", response.data);
+            navigator('/sellers-list');
+        }).catch(error => {
+            console.error("Ocorreu um erro ao cadastrar o vendedor!", error);
+            navigator('/sellers-list');
+        });
     }
 
     return (
@@ -45,7 +55,7 @@ const SellerComponent = () => {
                                         onChange={e => setSeller({ ...seller, email: e.target.value })}
                                     />
                                 </div>
-                                        
+
                                 <div className="form-group mb-2">
                                     <label className="form-label"><h6>Nível: JUNIOR, MIDLEVEL ou SENIOR</h6></label>
                                     <input
