@@ -1,3 +1,4 @@
+import SellerComponent from "components/SellerComponent";
 import SellersList from "components/SellersList";
 import Dashboard from "pages/Dashboard";
 import Home from "pages/Home"
@@ -12,6 +13,7 @@ const Routing = () => {
                     <Route path="/" element={<Home/>}></Route>
                     <Route path="/dashboard" element={<Dashboard/>}></Route>
                     <Route path="/sellers-list" element={<SellersList/>}></Route>
+                    <Route path="/add-seller" element={<SellerComponent/>}></Route>
                 </Routes>
             </BrowserRouter>
         </>
