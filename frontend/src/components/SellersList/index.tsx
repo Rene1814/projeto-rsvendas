@@ -23,6 +23,10 @@ const SellersList = () => {
         navigator('/add-seller');
     }
 
+    function updateSeller(id: number | undefined){
+        navigator(`/edit-seller/${id}`);
+    }
+
     return (
         <>
         <NavBar/>
@@ -46,6 +50,9 @@ const SellersList = () => {
                                 <td>{seller.name}</td>
                                 <td>{seller.email}</td>
                                 <td>{seller.level}</td>
+                                <td>
+                                    <button className="btn btn-warning" onClick={() => updateSeller(seller.id)}>Atualizar</button>
+                                </td>
                             </tr>
                         ))
                     }
