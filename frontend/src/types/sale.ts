@@ -1,10 +1,10 @@
 import { Seller } from "./seller";
 
 export type Sale =  {
-    id: number;
-    visited: number;
-    deals: number;
-    amount: number;
+    id?: number;
+    visited?: string;
+    deals?: string;
+    amount: string;
     date: string;
     seller: Seller
 }

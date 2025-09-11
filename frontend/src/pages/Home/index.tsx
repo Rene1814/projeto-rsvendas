@@ -18,6 +18,9 @@ const Home = () => {
                     <Link className="btn btn-spaced btn-primary" to="/sellers-list">
                         Lista de vendedores
                     </Link>
+                    <Link className="btn btn-spaced btn-primary" to="/sales-list">
+                        Cadastrar Venda
+                    </Link>
                 </div>
             </div>
             <Footer />

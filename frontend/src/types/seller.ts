@@ -6,4 +6,3 @@ export type Seller = {
 }
 
 export type Sellers = Seller[];
-

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import Footer from "components/Footer";
+import NavBar from "components/NavBar";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Seller } from "types/seller";
-import { createSeller } from "utils/requests";
+import { createSeller, getSeller, updateSeller } from "utils/requests";
 
 const SellerComponent = () => {
 
@@ -14,21 +16,45 @@ const SellerComponent = () => {
         level: ""
     });
 
+    useEffect(() => {
+        if (id){
+            const idSeller = Number(id);
+            getSeller(idSeller).then((response) => {
+                setSeller(response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+    }, [id])
+
     const [errors, setErrors] = useState<Seller>({ ...seller })
 
     const navigator = useNavigate();
 
-    function saveSeller(e: { preventDefault: () => void; }) {
+    function saveOrUpdateSeller(e: { preventDefault: () => void; }) {
         e.preventDefault();
 
         if (validateForm()) {
-            createSeller(seller).then(response => {
-                console.log("Vendedor cadastrado com sucesso!", response.data);
-                navigator('/sellers-list');
-            }).catch(error => {
-                console.error("Ocorreu um erro ao cadastrar o vendedor!", error);
-                navigator('/sellers-list');
-            });
+
+            if (id){
+                const idSeller = Number(id)
+                updateSeller(idSeller, seller).then((response) => {
+                    console.log(response.data);
+                    navigator('/sellers-list')
+                }).catch(error => {
+                    console.error(error);
+                })
+            } else {
+                createSeller(seller).then(response => {
+                    console.log("Vendedor cadastrado com sucesso!", response.data);
+                    navigator('/sellers-list');
+                }).catch(error => {
+                    console.error("Ocorreu um erro ao cadastrar o vendedor!", error);
+                    navigator('/sellers-list');
+                }).catch(error => {
+                    console.error(error);
+                });
+            }   
         }
     }
 
@@ -62,12 +88,23 @@ const SellerComponent = () => {
         return valid;
     }
 
+    function pageTitle(){
+        if (id){
+            return <h2 className="text-center">Atualizar Vendedor</h2>
+        } else {
+            return <h2 className="text-center">Cadastrar Vendedor</h2>
+        }
+    }
+
     return (
         <>
+            <NavBar/>
             <div className="container">
                 <div className="row">
                     <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <h2 className="text-center">Cadastrar Vendedor</h2>
+                        {
+                            pageTitle()
+                        }
                         <div className="card-body">
                             <form>
                                 <div className="form-group mb-2">
@@ -110,12 +147,13 @@ const SellerComponent = () => {
                                     {errors.level && <div className="invalid-feedback">{errors.level}</div>}
 
                                 </div>
-                                <button className="btn btn-success" onClick={saveSeller}>Salvar</button>
+                                <button className="btn btn-success" onClick={saveOrUpdateSeller}>Salvar</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 }
