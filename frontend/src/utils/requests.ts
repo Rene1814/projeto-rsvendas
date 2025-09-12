@@ -8,19 +8,22 @@ export const getSale = (id: number) => {
     return axios.get(`${BASE_URL}/sales/${id}`)
 }
 
-export const createSale = (sale: Sale) => {
-    return axios.post(`${BASE_URL}/sales`, sale);
+export const createSale = (sale: Sale) => axios.post(`${BASE_URL}/sales`, sale);
+
+export const updateSale = (id: number, sale: Sale) => axios.put(`${BASE_URL}/sales/${id}`, sale);
+
+export const deleteSale = (id: number | undefined) => {
+    return axios.delete(`${BASE_URL}/sales/${id}`);
 }
 
 export const sellersList = () => {
     return axios.get(`${BASE_URL}/sellers`)
 }; // Example function to fetch sellers list
 
-export const getSeller = (id: number) => {
-    return axios.get(`${BASE_URL}/sellers/${id}`);
-}
+export const getSeller = (id: number) => axios.get(`${BASE_URL}/sellers/${id}`);
 
-export const createSeller = (seller: {name?: string; email?: string; level?: string}) => {
+
+export const createSeller = (seller: Seller) => {
     return axios.post(`${BASE_URL}/sellers`, seller);
 }
 
