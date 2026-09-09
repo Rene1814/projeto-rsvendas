@@ -34,6 +34,8 @@ public class SellerService {
 	public SellerDTO insert(SellerDTO dto) {
 		Seller entity = new Seller();
 		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setSellerLevel(dto.getSellerLevel());
 		entity = repository.save(entity);
 		return new SellerDTO(entity);
 	}
@@ -42,6 +44,8 @@ public class SellerService {
 		Seller entity = repository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado"));
 		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setSellerLevel(dto.getSellerLevel());
 		entity = repository.save(entity);
 		return new SellerDTO(entity);
 	}

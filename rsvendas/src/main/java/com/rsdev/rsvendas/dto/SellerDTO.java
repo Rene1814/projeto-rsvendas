@@ -3,6 +3,7 @@ package com.rsdev.rsvendas.dto;
 import java.io.Serializable;
 
 import com.rsdev.rsvendas.entities.Seller;
+import com.rsdev.rsvendas.entities.SellerLevel;
 
 public class SellerDTO implements Serializable{
 	
@@ -10,6 +11,8 @@ public class SellerDTO implements Serializable{
 	
 	private Long id;
 	private String name;
+	private String email;
+	private SellerLevel sellerLevel;
 	
 	public SellerDTO() {}
 
@@ -17,10 +20,19 @@ public class SellerDTO implements Serializable{
 		this.id = id;
 		this.name = name;
 	}
+
+	public SellerDTO(Long id, String name, String email, SellerLevel sellerLevel) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.sellerLevel = sellerLevel;
+	}
 	
 	public SellerDTO(Seller entity) {
 		id = entity.getId();
 		name = entity.getName();
+		email = entity.getEmail();
+		sellerLevel = entity.getSellerLevel();
 	}
 
 	public Long getId() {
@@ -37,6 +49,22 @@ public class SellerDTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public SellerLevel getSellerLevel() {
+		return sellerLevel;
+	}
+
+	public void setSellerLevel(SellerLevel sellerLevel) {
+		this.sellerLevel = sellerLevel;
 	}
 
 }
