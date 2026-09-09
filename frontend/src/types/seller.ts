@@ -1,6 +1,8 @@
+export type SellerLevel = 'JUNIOR' | 'PLENO' | 'SENIOR';
+
 export type Seller = {
     id: number;
     name: string;
-    email: string;
-    sellerLevel: 'JUNIOR' | 'PLENO' | 'SENIOR';
+    email: string | null;
+    sellerLevel: SellerLevel | null;
 }

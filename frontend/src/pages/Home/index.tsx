@@ -30,6 +30,12 @@ const Home = () => {
         <Link to="/sellers/new" className="btn btn-outline-primary btn-lg btn-spaced">
           Cadastrar vendedor
         </Link>
+        <Link to="/sellers" className="btn btn-outline-dark btn-lg btn-spaced">
+          Ver vendedores
+        </Link>
+        <Link to="/sales/new" className="btn btn-outline-success btn-lg btn-spaced">
+          Cadastrar venda
+        </Link>
       </div>
     </div>
     <Footer />
