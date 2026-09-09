@@ -53,6 +53,28 @@ public class SaleService {
 		entity = repository.save(entity);
 		return new SaleDTO(entity);
 	}
+
+	@Transactional
+	public SaleDTO update(Long id, SaleDTO dto) {
+		Sale entity = repository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Venda não encontrada"));
+		entity.setVisited(dto.getVisited());
+		entity.setDeals(dto.getDeals());
+		entity.setAmount(dto.getAmount());
+		entity.setDate(dto.getDate());
+		entity.setSeller(sellerRepository.findById(dto.getSeller().getId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado")));
+		entity = repository.save(entity);
+		return new SaleDTO(entity);
+	}
+
+	@Transactional
+	public void delete(Long id) {
+		if (!repository.existsById(id)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venda não encontrada");
+		}
+		repository.deleteById(id);
+	}
 	
 	@Transactional(readOnly = true)
 	public List<SaleSumDTO> amountGroupedBySeller(){
