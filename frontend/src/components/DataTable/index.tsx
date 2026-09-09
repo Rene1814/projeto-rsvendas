@@ -3,6 +3,7 @@ import type { SalePage } from "../../types/sale";
 import { BASE_URL } from "../../utils/requests";
 import axios from "axios";
 import { formatLocalDate } from "../../utils/format";
+import Pagination from "../Pagination";
 
 const DataTable = () => {
   const [page, setPage] = useState<SalePage>({
@@ -23,6 +24,7 @@ const DataTable = () => {
 
   return (
     <>
+    <Pagination page={page} onPageChange={(newPage) => setPage({...page, number: newPage})} />
       <div className="table-responsive">
         <table className="table table-striped table-sm">
           <thead>
