@@ -1,3 +1,4 @@
+import { useState } from "react";
 import BarChart from "../../components/BarChart";
 import DataTable from "../../components/DataTable";
 import DonutChart from "../../components/DonutChart";
@@ -5,6 +6,8 @@ import Footer from "../../components/Footer";
 import NavBar from "../../components/NavBar";
 
 const Dashboard = () => {
+  const [chartsRefreshKey, setChartsRefreshKey] = useState(0);
+
   return (
     <>
       <NavBar />
@@ -14,17 +17,17 @@ const Dashboard = () => {
         <div className="row px-3">
           <div className="col-sm-6">
             <h5 className="text-center text-secondary">Taxa de sucesso (%)</h5>
-            <BarChart />
+            <BarChart refreshKey={chartsRefreshKey} />
           </div>
           <div className="col-sm-6">
             <h5 className="text-center text-secondary">Todas as vendas</h5>
-            <DonutChart />
+            <DonutChart refreshKey={chartsRefreshKey} />
           </div>
         </div>
         <div className="py-3">
           <h2 className="text-primary">Todas as vendas</h2>
         </div>
-        <DataTable />
+        <DataTable onSaleDeleted={() => setChartsRefreshKey((currentKey) => currentKey + 1)} />
       </div>
       <Footer />
     </>

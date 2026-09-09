@@ -9,7 +9,11 @@ type ChartData = {
   labels: string[];
 };
 
-const DonutChart = () => {
+type DonutChartProps = {
+  refreshKey?: number;
+};
+
+const DonutChart = ({ refreshKey = 0 }: DonutChartProps) => {
   const [chartData, setChartData] = useState<ChartData>({
     series: [],
     labels: [],
@@ -22,7 +26,7 @@ const DonutChart = () => {
       const mySeries = data.map((x) => x.sum);
       setChartData({ series: mySeries, labels: myLabels });
     });
-  }, []);
+  }, [refreshKey]);
 
   const options = {
     legend: {

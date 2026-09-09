@@ -15,6 +15,7 @@ const Routing = () => {
         <Route path="/sellers/:id/edit" element={<SellerForm />} />
         <Route path="/sellers" element={<Sellers />} />
         <Route path="/sales/new" element={<SaleForm />} />
+        <Route path="/sales/:id/edit" element={<SaleForm />} />
       </Routes>
     </BrowserRouter>
   );

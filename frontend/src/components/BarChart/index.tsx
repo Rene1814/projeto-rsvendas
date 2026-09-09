@@ -15,7 +15,11 @@ type ChartData = {
   labels: { categories: string[] };
 };
 
-const BarChart = () => {
+type BarChartProps = {
+  refreshKey?: number;
+};
+
+const BarChart = ({ refreshKey = 0 }: BarChartProps) => {
   const [chartData, setChartData] = useState<ChartData>({
     series: [{ name: "% Sucesso", data: [] }],
     labels: { categories: [] },
@@ -31,7 +35,7 @@ const BarChart = () => {
         labels: { categories: myLabels },
       });
     });
-  }, []);
+  }, [refreshKey]);
 
   const options = {
     plotOptions: {

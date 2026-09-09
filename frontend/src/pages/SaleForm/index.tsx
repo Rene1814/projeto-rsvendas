@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../components/Footer";
 import NavBar from "../../components/NavBar";
 import type { Seller } from "../../types/seller";
+import type { Sale } from "../../types/sale";
 import { BASE_URL } from "../../utils/requests";
 
 const SaleForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const isEditing = Boolean(id);
   const [sellers, setSellers] = useState<Seller[]>([]);
   const [sellerId, setSellerId] = useState("");
   const [visited, setVisited] = useState("");
@@ -18,6 +21,22 @@ const SaleForm = () => {
   const [isLoadingSellers, setIsLoadingSellers] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    axios.get<Sale>(`${BASE_URL}/sales/${id}`)
+      .then((response) => {
+        setSellerId(String(response.data.seller.id));
+        setVisited(String(response.data.visited));
+        setDeals(String(response.data.deals));
+        setAmount(String(response.data.amount));
+        setDate(response.data.date);
+      })
+      .catch(() => setError("Não foi possível carregar a venda."));
+  }, [id]);
 
   useEffect(() => {
     axios.get<Seller[]>(`${BASE_URL}/sellers`)
@@ -32,14 +51,20 @@ const SaleForm = () => {
     setIsSubmitting(true);
 
     try {
-      await axios.post(`${BASE_URL}/sales`, {
+      const saleData = {
         visited: Number(visited),
         deals: Number(deals),
         amount: Number(amount),
         date,
         seller: { id: Number(sellerId) },
-      });
-      navigate("/dashboard", { state: { saleCreated: true } });
+      };
+
+      if (isEditing) {
+        await axios.put(`${BASE_URL}/sales/${id}`, saleData);
+      } else {
+        await axios.post(`${BASE_URL}/sales`, saleData);
+      }
+      navigate("/dashboard", { state: { saleUpdated: isEditing } });
     } catch {
       setError("Não foi possível cadastrar a venda. Tente novamente.");
     } finally {
@@ -53,8 +78,8 @@ const SaleForm = () => {
       <main className="container sale-form-page">
         <div className="seller-form-intro">
           <span className="seller-form-kicker">Registro comercial</span>
-          <h1>Cadastrar venda</h1>
-          <p>Associe os resultados da venda ao vendedor responsável.</p>
+          <h1>{isEditing ? "Atualizar venda" : "Cadastrar venda"}</h1>
+          <p>{isEditing ? "Mantenha os dados da venda atualizados." : "Associe os resultados da venda ao vendedor responsável."}</p>
         </div>
 
         <form className="seller-form sale-form" onSubmit={handleSubmit}>
@@ -141,7 +166,7 @@ const SaleForm = () => {
           <div className="seller-form-actions">
             <Link to="/dashboard" className="btn btn-outline-secondary btn-lg">Cancelar</Link>
             <button className="btn btn-primary btn-lg" type="submit" disabled={isSubmitting || isLoadingSellers}>
-              {isSubmitting ? "Cadastrando..." : "Cadastrar venda"}
+              {isSubmitting ? (isEditing ? "Atualizando..." : "Cadastrando...") : (isEditing ? "Atualizar venda" : "Cadastrar venda")}
             </button>
           </div>
         </form>
