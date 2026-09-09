@@ -37,5 +37,20 @@ public class SellerService {
 		entity = repository.save(entity);
 		return new SellerDTO(entity);
 	}
+
+	public SellerDTO update(Long id, SellerDTO dto) {
+		Seller entity = repository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado"));
+		entity.setName(dto.getName());
+		entity = repository.save(entity);
+		return new SellerDTO(entity);
+	}
+
+	public void delete(Long id) {
+		if (!repository.existsById(id)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vendedor não encontrado");
+		}
+		repository.deleteById(id);
+	}
 	
 }
