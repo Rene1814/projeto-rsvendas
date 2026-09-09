@@ -38,3 +38,71 @@ html, body {
 .btn-spaced {
     margin-left: 10px;
 }
+
+.seller-form-page {
+    flex: 1 0 auto;
+    padding: 2rem 0 4rem;
+}
+
+.seller-form-intro {
+    max-width: 720px;
+    margin: 1rem auto 2rem;
+}
+
+.seller-form-kicker {
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.seller-form-intro h1 {
+    margin: 0.4rem 0 0.75rem;
+    font-weight: 700;
+}
+
+.seller-form-intro p {
+    color: #626262;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.seller-form {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 1px solid #e5e5e5;
+    border-top: 4px solid var(--color-primary);
+    background-color: #fff;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.08);
+}
+
+.seller-form .form-label {
+    font-weight: 500;
+}
+
+.seller-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 575.98px) {
+    .seller-form-page {
+        padding: 1rem 0 3rem;
+    }
+
+    .seller-form {
+        padding: 1.25rem;
+    }
+
+    .seller-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .seller-form-actions .btn {
+        width: 100%;
+    }
+}

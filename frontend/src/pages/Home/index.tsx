@@ -1,12 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import NavBar from "../../components/NavBar";
 
 const Home = () => {
+  const location = useLocation();
+  const sellerCreated = location.state?.sellerCreated === true;
+
   return (
     <>
     <NavBar />
     <div className="container">
+      {sellerCreated && (
+        <div className="alert alert-success mt-3" role="status">
+          Vendedor cadastrado com sucesso.
+        </div>
+      )}
       <div className="jumbotron">
         <h1 className="display-4">DSVendas</h1>
         <p className="lead">
@@ -18,6 +26,9 @@ const Home = () => {
         </p>
         <Link to="/dashboard" className="btn btn-primary btn-lg">
           Acessar dashboard
+        </Link>
+        <Link to="/sellers/new" className="btn btn-outline-primary btn-lg btn-spaced">
+          Cadastrar vendedor
         </Link>
       </div>
     </div>
