@@ -22,6 +22,8 @@ const SaleForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
+  const selectedSeller = sellers.find((seller) => seller.id === Number(sellerId));
+
   useEffect(() => {
     if (!id) {
       return;
@@ -59,6 +61,12 @@ const SaleForm = () => {
         seller: { id: Number(sellerId) },
       };
 
+      if (!selectedSeller) {
+        setError("Informe o Id de um vendedor cadastrado.");
+        setIsSubmitting(false);
+        return;
+      }
+
       if (isEditing) {
         await axios.put(`${BASE_URL}/sales/${id}`, saleData);
       } else {
@@ -88,23 +96,26 @@ const SaleForm = () => {
           <div className="row g-4">
             <div className="col-12 col-md-6">
               <label className="form-label" htmlFor="sale-seller">Vendedor</label>
-              <select
+              <input
                 className="form-select form-select-lg"
                 id="sale-seller"
+                list="seller-options"
+                type="text"
+                inputMode="numeric"
                 value={sellerId}
                 onChange={(event) => setSellerId(event.target.value)}
                 disabled={isLoadingSellers}
+                placeholder={isLoadingSellers ? "Carregando vendedores..." : "Digite o Id do vendedor"}
                 required
-              >
-                <option value="">
-                  {isLoadingSellers ? "Carregando vendedores..." : "Selecione um vendedor"}
-                </option>
+              />
+              <datalist id="seller-options">
                 {sellers.map((seller) => (
-                  <option key={seller.id} value={seller.id}>
-                    #{seller.id} - {seller.name}
-                  </option>
+                  <option key={seller.id} value={seller.id} label={seller.name} />
                 ))}
-              </select>
+              </datalist>
+              <div className="form-text">
+                {selectedSeller ? `Vendedor selecionado: ${selectedSeller.name}` : "Digite o Id ou escolha uma sugestão da lista."}
+              </div>
             </div>
 
             <div className="col-12 col-md-6">
